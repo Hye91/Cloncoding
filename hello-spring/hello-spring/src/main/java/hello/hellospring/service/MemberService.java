@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-@Service
+
 public class MemberService { //테스트 만들기 ctrl + shift + T
     private final MemberRepository memberRepository;
     //레포지토리에서 가져와서 구현을 해야하니까 새로 만들어줌
 
-    @Autowired
+
     public MemberService(MemberRepository memberRepository){
         this.memberRepository = memberRepository;
     } // private하게 설정된걸 외부에서 주입을 할수 있도록 바꿔줌
