@@ -5,7 +5,7 @@ import hello.hellospring.domain.Member;
 import java.util.List;
 import java.util.Optional;
 
-public interface MemberRepository {
+public interface MemberRepository { //회원을 저장한다는 '역할'을 하는것 /구현을 Memory가 하는지, Jdbc가 하는지로 나뉜다.
     Member save(Member member); //회원을 저장하면 저장된 회원반환
     //저장을 하면 저장소에 회원 저장
     Optional<Member> findById(Long id);
