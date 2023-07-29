@@ -13,7 +13,7 @@ void main() {
   runApp(App());
 }
 
-//widget = 레고블록
+//widget = 레고블록 = class! 매번 new를 통해서 초기화 시켜주지 않아도 된다.
 //widget을 쌓아서 하나의 UI를 만들게 된다.
 
 class App extends StatelessWidget {
@@ -24,14 +24,45 @@ class App extends StatelessWidget {
     //App의 시작점을 정해주는것
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          elevation: 5,
-          title: Text('Hello Flutter'),
-        ),
-        body: Center(
-          child: Text('HelloWorld'),
-        ),
-      ),
+          backgroundColor: Color(0xff181818), //Colors.하면 지정된 색들을 사용
+          body: Padding(
+            //전체적인 코드를 padding으로 감싸주는것.
+            padding: EdgeInsets.symmetric(horizontal: 40),
+            child: Column(
+              //Row는 수평, Column은 수직배열을 위한것.
+              children: [
+                SizedBox(
+                  //사이즈를 가진 빈 박스, 이걸 사용해서 공간을 만든다.
+                  height: 80,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end, //수평방향정렬
+                      children: [
+                        Text(
+                          "Hey, Selena",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 28,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        Text(
+                          "Welcome back",
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.8),
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                )
+              ],
+            ),
+          )),
     );
     //meterial , cupertino : 구글, 애플 디자인 시스템
     //scaffold 앱을 구성할때 팰요한 요소
