@@ -16,6 +16,10 @@ void main() {
 //widget = 레고블록 = class! 매번 new를 통해서 초기화 시켜주지 않아도 된다.
 //widget을 쌓아서 하나의 UI를 만들게 된다.
 
+//meterial , cupertino : 구글, 애플 디자인 시스템
+//scaffold 앱을 구성할때 팰요한 요소
+//class만들고 나서 ,찍어주면 어떤 요소를 하고 있는지 알수 있다!
+
 class App extends StatelessWidget {
   //Root Widget이 된다.
   //StatelessWidget을 사용하면 build 메서드를 구현해야한다
@@ -29,7 +33,9 @@ class App extends StatelessWidget {
             //전체적인 코드를 padding으로 감싸주는것.
             padding: EdgeInsets.symmetric(horizontal: 40),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               //Row는 수평, Column은 수직배열을 위한것.
+              //Row에서는 가로가 main, Column에서는 세로가 main
               children: [
                 SizedBox(
                   //사이즈를 가진 빈 박스, 이걸 사용해서 공간을 만든다.
@@ -39,7 +45,8 @@ class App extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.end, //수평방향정렬
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      //수평방향정렬
                       children: [
                         Text(
                           "Hey, Selena",
@@ -59,13 +66,57 @@ class App extends StatelessWidget {
                       ],
                     )
                   ],
-                )
+                ),
+                SizedBox(
+                  height: 120,
+                ),
+                Text(
+                  'Total Balance',
+                  style: TextStyle(
+                    fontSize: 22,
+                    color: Colors.white.withOpacity(0.8),
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  '\$5 194 482',
+                  style: TextStyle(
+                    fontSize: 48,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      //html에서 div같은것
+                      decoration: BoxDecoration(
+                        color: Colors.amber,
+                        borderRadius: BorderRadius.circular(45),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 20,
+                          horizontal: 50,
+                        ),
+                        child: Text(
+                          'Transfer',
+                          style: TextStyle(
+                            fontSize: 22,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           )),
     );
-    //meterial , cupertino : 구글, 애플 디자인 시스템
-    //scaffold 앱을 구성할때 팰요한 요소
-    //class만들고 나서 ,찍어주면 어떤 요소를 하고 있는지 알수 있다!
   }
 }
