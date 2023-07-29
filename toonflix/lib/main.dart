@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 
+// class Player {
+//   String? name; // ?를 한 순간부터 name을 가질수도 안가질수도 있다
+//   required가 아니라는 이야기.
+//   Player(); // ?만으로 안에 굳이 값을 가지지 않아도 오류가 뜨지 않는다.
+//   Player({required this.name}); //중괄호 안에 표시하면 named Constructor
+//   Player(this.name); 이렇게 하는게 positional 방법 -> 위치를 정확히 해줘야함
+// }
+
 void main() {
+  //var nico = Player();
   runApp(App());
 }
 
