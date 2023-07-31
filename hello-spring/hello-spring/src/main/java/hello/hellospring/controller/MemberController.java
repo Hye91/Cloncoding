@@ -22,7 +22,9 @@ public class MemberController {
 
     @Autowired //이걸 사용해서 실행될때 service와 연결이 되게해준다
     public MemberController(MemberService memberService) {
+
         this.memberService = memberService;
+        System.out.println("memberService = " + memberService.getClass());
     }
 
     @GetMapping("/members/new")
