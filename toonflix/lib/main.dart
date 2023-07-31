@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toonflix/widgets/Button.dart';
 
 // class Player {
 //   String? name; // ?를 한 순간부터 name을 가질수도 안가질수도 있다
@@ -10,7 +11,7 @@ import 'package:flutter/material.dart';
 
 void main() {
   //var nico = Player();
-  runApp(App());
+  runApp(const App());
 }
 
 //widget = 레고블록 = class! 매번 new를 통해서 초기화 시켜주지 않아도 된다.
@@ -20,7 +21,19 @@ void main() {
 //scaffold 앱을 구성할때 팰요한 요소
 //class만들고 나서 ,찍어주면 어떤 요소를 하고 있는지 알수 있다!
 
+//constant는 바꿀수 없는 상수, compile 전에 알고 있는 값이다.
+//하지만 어떤것이 constant가 될수 있고 없고를 판단하기 어렵다
+//open user Settings (Json)에서 처리 가능
+// "editor.codeActionsOnSave": {
+//         "source.fixAll": true
+//     },
+//     "dart.previewFlutterUiGuides": true, 이 부분 추가.
+
+//show code action : ctrl + .
+
 class App extends StatelessWidget {
+  const App({super.key});
+
   //Root Widget이 된다.
   //StatelessWidget을 사용하면 build 메서드를 구현해야한다
   @override
@@ -28,16 +41,18 @@ class App extends StatelessWidget {
     //App의 시작점을 정해주는것
     return MaterialApp(
       home: Scaffold(
-          backgroundColor: Color(0xff181818), //Colors.하면 지정된 색들을 사용
+          backgroundColor: const Color(0xff181818), //Colors.하면 지정된 색들을 사용
           body: Padding(
             //전체적인 코드를 padding으로 감싸주는것.
-            padding: EdgeInsets.symmetric(horizontal: 40),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 40,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               //Row는 수평, Column은 수직배열을 위한것.
               //Row에서는 가로가 main, Column에서는 세로가 main
               children: [
-                SizedBox(
+                const SizedBox(
                   //사이즈를 가진 빈 박스, 이걸 사용해서 공간을 만든다.
                   height: 80,
                 ),
@@ -48,7 +63,7 @@ class App extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       //수평방향정렬
                       children: [
-                        Text(
+                        const Text(
                           "Hey, Selena",
                           style: TextStyle(
                             color: Colors.white,
@@ -67,7 +82,7 @@ class App extends StatelessWidget {
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 120,
                 ),
                 Text(
@@ -77,10 +92,10 @@ class App extends StatelessWidget {
                     color: Colors.white.withOpacity(0.8),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
-                Text(
+                const Text(
                   '\$5 194 482',
                   style: TextStyle(
                     fontSize: 48,
@@ -88,29 +103,21 @@ class App extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Row(
-                  children: [
-                    Container(
-                      //html에서 div같은것
-                      decoration: BoxDecoration(
-                        color: Colors.amber,
-                        borderRadius: BorderRadius.circular(45),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 20,
-                          horizontal: 50,
-                        ),
-                        child: Text(
-                          'Transfer',
-                          style: TextStyle(
-                            fontSize: 22,
-                          ),
-                        ),
-                      ),
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Button(
+                      text: "Transfer",
+                      bgColor: Color(0xFFF1B33B),
+                      textColor: Colors.black,
+                    ),
+                    Button(
+                      text: "Request",
+                      bgColor: Color(0xFF1F2123),
+                      textColor: Colors.white,
                     ),
                   ],
                 ),
