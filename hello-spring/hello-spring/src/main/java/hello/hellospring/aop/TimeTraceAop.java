@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Aspect //aop적용 시킬때 이 어노테이션 입력함.
 public class TimeTraceAop { //@Component를 해서 사용해도 되지만 보통 스프링 Bean에 등록에서 쓰는걸 선호한다.
 
-    @Around("execution(* hello.helloSpring..*(..))") //공통관심사항에 적용시키는것, 패키지명 하위에 다 적용시키는 방법.
+    @Around("execution(* hello.hellospring..*(..))") //공통관심사항에 적용시키는것, 패키지명 하위에 다 적용시키는 방법.
     public Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
 
         long start = System.currentTimeMillis();
