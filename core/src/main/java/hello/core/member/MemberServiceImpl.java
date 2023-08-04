@@ -1,6 +1,8 @@
 package hello.core.member;
 
 public class MemberServiceImpl implements MemberService{
+    //MemberServiceImpl은 MemberRepository와 MemoryMemberRepository 모두를 의존하게 된다.
+    // DIP의 원칙이 잘 지켜지고 있는가?
 
     private final MemberRepository memberRepository = new MemoryMemberRepository();
     //ctrl + shift + enter : 자동완성
