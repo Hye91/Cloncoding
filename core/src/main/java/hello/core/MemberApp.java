@@ -8,8 +8,11 @@ import hello.core.member.MemberServiceImpl;
 public class MemberApp {
 
     public static void main(String[] args) {
+        //기존에는 직접 객체를 생성하고 했지만 AppConfig를 이용해서도 만들어보기
+        AppConfig appConfig =new AppConfig();
+        MemberService memberService = appConfig.memberService(); //MemberServiceImpl을 주게된다.
 
-        MemberService memberService = new MemberServiceImpl(); //구현체의 공간을 만들어줘야한다.
+        //MemberService memberService = new MemberServiceImpl(); //구현체의 공간을 만들어줘야한다.
         //회원가입 과정
         Member member = new Member(1L, "memberA", Grade.VIP);
         memberService.join(member);
