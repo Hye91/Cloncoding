@@ -6,6 +6,7 @@ import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
+//import 코드만 보고 의존관계를 쉽게 판단할수 있는관계 = 정적인 의존관계
 
 public class OrderServiceImple implements OrderService{
 
@@ -16,6 +17,9 @@ public class OrderServiceImple implements OrderService{
 
     //DiscountPolicy discountPolicy = new FixDiscountPolicy();
     //DiscountPolicy discountPolicy = new RateDiscountPolicy();
+
+    //AppConfig 생성 이전에는 이 부분의 수정이 필요했다 그러나 지금은 필요하지 않게된다.
+
     private DiscountPolicy discountPolicy;
     //FixDiscountPolicy, RateDiscountPolicy에 의존하지 않는 관계를 만들어줘야 해서 변경
     //이렇게 되면 OrderServiceImple은 인터페이스인 DiscountPolicy만을 의존하게 된다

@@ -16,7 +16,7 @@ public class MemberServiceTest {
         memberService = appConfig.memberService();
     }
 
-    @Test
+    @Test //실행과 제어권을 junit이라는 프레임워크가 가져간다. -> 제어의 역전
     void join(){
         //given
         Member member = new Member(1L, "memberA", Grade.VIP);
