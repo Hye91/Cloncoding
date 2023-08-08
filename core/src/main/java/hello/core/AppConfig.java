@@ -13,6 +13,7 @@ import hello.core.order.OrderServiceImple;
 public class AppConfig {
 
     //제어의 역전을 일으키는 AppConfig를 IoC 컨테이너/ DI컨테이너 라고한다.
+    //spring이 Di 컨테이너 역할을 하게된다.
 
     //애플리케이션 전체를 설정하고 구성한다.
     //객체의 생성과 연결을 담당하게 된다.
