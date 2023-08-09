@@ -7,16 +7,24 @@ import hello.core.member.MemberServiceImpl;
 import hello.core.order.Order;
 import hello.core.order.OrderService;
 import hello.core.order.OrderServiceImple;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class OrderApp {
 
     public static void main(String[] args) {
         //기존에는 직접 객체를 생성하고 했지만 AppConfig를 이용해서도 만들어보기
-        AppConfig appConfig = new AppConfig();
-        MemberService memberService = appConfig.memberService();
-        OrderService orderService = appConfig.orderService();
+//        AppConfig appConfig = new AppConfig();
+//        MemberService memberService = appConfig.memberService();
+//        OrderService orderService = appConfig.orderService();
 //        MemberService memberService = new MemberServiceImpl(null);
 //        OrderService orderService = new OrderServiceImple(null,null);
+
+        //스프링을 사용하는 방법
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+        MemberService memberService = applicationContext.getBean("memberService", /*타입*/MemberService.class);
+        OrderService orderService = applicationContext.getBean("orderService", OrderService.class);
+
 
         //회원가입
         Long memberId = 1L;
