@@ -18,6 +18,8 @@ public class MemberApp {
         //스프랑 사용하는 버전
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
         //AppConfig에 있는 환경설정 정보를 가지고 스프링 컨테이너에 객체 생성을 한걸 집어 넣어주게된다.
+        //applicationContext이 스프링 컨테이너가 된다. ApplicationContext는 인터페이스
+        //AnnotationConfigApplicationContext : Annotation 기반으로 자바 스프링 Context를 만들어라
         MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
 
         //MemberService memberService = new MemberServiceImpl(); //구현체의 공간을 만들어줘야한다.
