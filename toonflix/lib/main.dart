@@ -83,7 +83,7 @@ class App extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(
-                  height: 120,
+                  height: 50,
                 ),
                 Text(
                   'Total Balance',
@@ -150,6 +150,8 @@ class App extends StatelessWidget {
                   height: 20,
                 ),
                 Container(
+                  clipBehavior:
+                      Clip.hardEdge, //Container에서 튀어나온 부분을 어떻게 처리할 것인지를 정하게된다.
                   decoration: BoxDecoration(
                     color: const Color(0xFF1F2123),
                     borderRadius: BorderRadius.circular(20),
@@ -157,6 +159,8 @@ class App extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(30),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment
+                          .spaceBetween, //Row main 가로 Column main 세로
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -194,6 +198,19 @@ class App extends StatelessWidget {
                               ],
                             ),
                           ],
+                        ),
+                        Transform.scale(
+                          //카드의 크기는 변하게 하지 않고 아이콘의 크기만을 변화시키게 된다.
+                          scale: 2.2,
+                          child: Transform.translate(
+                            offset:
+                                const Offset(-5, 13), // x, y축으로의 이동하는걸로 사용하는 위젯
+                            child: const Icon(
+                              Icons.euro_rounded,
+                              color: Colors.white,
+                              size: 88,
+                            ),
+                          ),
                         ),
                       ],
                     ),
