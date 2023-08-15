@@ -29,4 +29,25 @@ public class SingletonTest {
         //memberService1 != memberService2
         assertThat(memberService1).isNotSameAs(memberService2);
     }
+
+//    public static void main(String[] args) {
+//        SingletonService singletonService = new SingletonService();
+//    } static 영역에 private으로 SingletonService가 만들어져있으므로 다른 데서 생성을 할수 없게된다.
+
+    @Test
+    @DisplayName("싱글톤 패턴을 적용한 객체 사용")
+    void singletonServiceTest(){
+        SingletonService singletonService1 = SingletonService.getInstance();
+        SingletonService singletonService2 = SingletonService.getInstance();
+
+        System.out.println("singletonService1 = " + singletonService1);
+        System.out.println("singletonService2 = " + singletonService2);
+//        singletonService1 = hello.core.singleton.SingletonService@7a8c8dcf
+//        singletonService2 = hello.core.singleton.SingletonService@7a8c8dcf 같은 객체 인스턴스 확인됨.
+
+        assertThat(singletonService1).isSameAs(singletonService2);
+        // Same : 참조가 같은지 비교 / Equal : java의 equal과 같이 값이 같은지 비교
+
+        //스프링 컨테이너를 사용하면 스프링 컨테이너가 기본적으로 객체를 싱글톤 패턴으로 다 관리해준다.
+    }
 }
