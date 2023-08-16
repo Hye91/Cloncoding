@@ -23,4 +23,9 @@ public class MemberServiceImpl implements MemberService{
     public Member findMember(Long memberId) {
         return memberRepository.findById(memberId);
     }
+
+    //singleton이 깨지는지 아닌지 테스트 용
+    public MemberRepository getMemberRepository(){
+        return memberRepository;
+    }
 }

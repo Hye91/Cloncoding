@@ -25,8 +25,15 @@ public class AppConfig {
     //구현을 현재 어플리케이션에서 어떻게 하는지를 확인하기 쉽다.
     //후에 DB를 바꿔야하는 경우가 생길경우, memberRepository의 코드만 변경해주면 된다.
     //스프링 빈은 @Bean 이 붙은 메서드의 명을 스프링 빈의 이름으로 사용한다.
+
+    // @Bean memberService() -> new MemoryMemberRepository()
+    // @Bean orderService() -> new MemoryMemberRepository() --> 이렇게 되면 Singelton이 깨지는게 아닌가??
+    // 검증해보자! memberServiceImpl, orderServiceImple에서 getMemberRepository만들어서 테스트
+
     @Bean //빈 어노테이션으로 스프링 컨테이너에 등록이 되게 된다.
     public MemberService memberService(){
+        //실제로 호출은 몇번되는지 확인하기 위한 코드 작성
+        System.out.println("call AppConfig.memberService");
         return new MemberServiceImpl(memberRepository()); //new MemoryRepository를 memberRepository로 리팩토링
         //memberService역할, MemberRepository이 구분되게 표현하기 위해서 리팩토링을 진행
         //리팩토링 단축키 ctrl + alt + m
@@ -35,10 +42,12 @@ public class AppConfig {
     }
     @Bean
     public MemberRepository memberRepository() {
+        System.out.println("call AppConfig.memberRepository");
         return new MemoryMemberRepository();
     }
     @Bean
     public OrderService orderService(){
+        System.out.println("call AppConfig.orderService");
         return new OrderServiceImple(memberRepository(), discountPolicy());
     }
 

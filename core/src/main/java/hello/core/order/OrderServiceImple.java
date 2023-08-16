@@ -40,4 +40,8 @@ public class OrderServiceImple implements OrderService{
 
         return new Order(memberId,itemName,itemPrice,discountPrice);
     }
+    //singleton이 깨지는지 아닌지 테스트 용
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
+    }
 }
