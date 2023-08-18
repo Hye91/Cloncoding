@@ -6,8 +6,11 @@ import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
-//import 코드만 보고 의존관계를 쉽게 판단할수 있는관계 = 정적인 의존관계
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+//import 코드만 보고 의존관계를 쉽게 판단할수 있는관계 = 정적인 의존관계
+@Component
 public class OrderServiceImple implements OrderService{
 
     //서비스 임플리먼츠는 회원 레포지토리와 할인 정책에 관한게 필요하다
@@ -26,7 +29,7 @@ public class OrderServiceImple implements OrderService{
     //Test를 하면 nullPointException이 터진다. 구현체를 할당하지 않았기때문에 null이 되므로!
     //누군가가 DiscountPolicy를 대신 생성해서 주입을 해줘야한다!
 
-
+    @Autowired //자동으로 의존관계가 주입되도록 설정
     public OrderServiceImple(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
