@@ -3,7 +3,7 @@ package hello.core.member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component("memberService2") //컴포넌트 스캔을 하기 위해서 적용시켜준다
+@Component //컴포넌트 스캔을 하기 위해서 적용시켜준다
 public class MemberServiceImpl implements MemberService{
     //MemberServiceImpl은 MemberRepository와 MemoryMemberRepository 모두를 의존하게 된다.
     // DIP의 원칙이 잘 지켜지고 있는가?
