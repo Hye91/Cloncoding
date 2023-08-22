@@ -48,7 +48,8 @@ public class AppConfig {
     @Bean
     public OrderService orderService(){
         System.out.println("call AppConfig.orderService");
-        return new OrderServiceImple(memberRepository(), discountPolicy());
+        //return new OrderServiceImple(memberRepository(), discountPolicy());
+        return null;
     }
 
     //DiscountPolicy는 직접 리팩토링

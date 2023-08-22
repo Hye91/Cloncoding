@@ -31,4 +31,12 @@ public class OrderServiceTest {
         Assertions.assertThat(order.getDiscountPrice()).isEqualTo(1000);
 
     }
+
+    @Test
+    void fieldInjectionTest(){
+        OrderService orderService1 = new OrderServiceImple();
+        orderService1.createOrder(1L, "memberA", 10000);
+        //.NullPointerException 직접 주입으로 설정을 하게되면 원하는 값을 변경할수 없게된다
+        //임의의 DB를 만들어서 접근 Repository를 바꾸고 싶을때 변경할수 없게 되는것.
+    }
 }
