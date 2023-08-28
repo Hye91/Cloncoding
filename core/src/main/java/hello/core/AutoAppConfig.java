@@ -22,8 +22,9 @@ public class AutoAppConfig {
     //컴포넌트 스캔 : 스프링 빈을 자동으로 끌어올리는것
     // @Component가 붙은 클래스를 찾아서 자동으로 스프링 빈으로 등록을 한다.
 
-    @Bean(name = "memoryMemberRepository") //bean으로 등록되면 MemoryMemberRepository -> memoryMemberRepository으로 등록
-    MemberRepository memberRepository(){
-        return new MemoryMemberRepository();
-    }
+//    @Bean(name = "memoryMemberRepository") //bean으로 등록되면 MemoryMemberRepository -> memoryMemberRepository으로 등록
+//    MemberRepository memberRepository(){
+//        return new MemoryMemberRepository();
+//    } Component 충돌 테스트할때 만들어두고 주석처리 안해서 오류뜨게된거라 주석처리
+    //BeanDefinitionOverrideException 이 되게 된다.
 }
