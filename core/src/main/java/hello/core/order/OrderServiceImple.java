@@ -4,11 +4,13 @@ import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 //import 코드만 보고 의존관계를 쉽게 판단할수 있는관계 = 정적인 의존관계
 @Component
-@RequiredArgsConstructor//필수값인 final이 붙은 인스턴스의 생성자 만들어준다.
+//@RequiredArgsConstructor//필수값인 final이 붙은 인스턴스의 생성자 만들어준다.
 public class OrderServiceImple implements OrderService{
 
     //서비스 임플리먼츠는 회원 레포지토리와 할인 정책에 관한게 필요하다
@@ -42,15 +44,22 @@ public class OrderServiceImple implements OrderService{
 //        this.discountPolicy = discountPolicy;
 //    }
 
-    //@Autowired //자동으로 의존관계가 주입되도록 설정 / 생성자주입
-//    public OrderServiceImple(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
-//        //생성자 주입의 경우에는 빈을 등록하면서 의존관계 주입도 같이 일어나게 된다.
-//        //스프링이 실행되면 생성자의 호출이 바로 일어나기 때문에
-//        //System.out.println("1. OrderServiceImple.OrderServiceImple"); //제일먼저 호출되는 순서임을 알수있다.
-//        this.memberRepository = memberRepository;
-//        this.discountPolicy = discountPolicy;
-//    } //생성자 외부 주입, AppConfig에서 의해서 관리되게 하기 위해서 생성자 외부주입으로 바꾼다.
-//    // 문서에 null이 허용가능한 경우를 제외하고는 대부분 값을 다 채워넣어야한다고 생각하면 된다.
+    @Autowired
+    private DiscountPolicy rateDiscountPolicy;
+
+    @Autowired //자동으로 의존관계가 주입되도록 설정 / 생성자주입
+    public OrderServiceImple(MemberRepository memberRepository, /*@Qualifier("mainDiscountPolicy")*/ DiscountPolicy discountPolicy) {
+        //생성자 주입의 경우에는 빈을 등록하면서 의존관계 주입도 같이 일어나게 된다.
+        //스프링이 실행되면 생성자의 호출이 바로 일어나기 때문에
+        //System.out.println("1. OrderServiceImple.OrderServiceImple"); //제일먼저 호출되는 순서임을 알수있다.
+
+        //ctrl + alt + b = 구현체 옵션보기
+
+        //Autowired의 경우 같은 타입의 빈이 중복인 경우 다음으로 필드이름, 빈의 파라미터 이름으로 조회해서 찾게 된다.
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    } //생성자 외부 주입, AppConfig에서 의해서 관리되게 하기 위해서 생성자 외부주입으로 바꾼다.
+    // 문서에 null이 허용가능한 경우를 제외하고는 대부분 값을 다 채워넣어야한다고 생각하면 된다.
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
