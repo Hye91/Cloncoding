@@ -1,5 +1,6 @@
 package hello.core.order;
 
+import hello.core.annotation.MainDiscountPolicy;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
@@ -48,7 +49,8 @@ public class OrderServiceImple implements OrderService{
     private DiscountPolicy rateDiscountPolicy;
 
     @Autowired //자동으로 의존관계가 주입되도록 설정 / 생성자주입
-    public OrderServiceImple(MemberRepository memberRepository, /*@Qualifier("mainDiscountPolicy")*/ DiscountPolicy discountPolicy) {
+    public OrderServiceImple(MemberRepository memberRepository,
+            @MainDiscountPolicy/*@Qualifier("mainDiscountPolicy")*/ DiscountPolicy discountPolicy) {
         //생성자 주입의 경우에는 빈을 등록하면서 의존관계 주입도 같이 일어나게 된다.
         //스프링이 실행되면 생성자의 호출이 바로 일어나기 때문에
         //System.out.println("1. OrderServiceImple.OrderServiceImple"); //제일먼저 호출되는 순서임을 알수있다.
