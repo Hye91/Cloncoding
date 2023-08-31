@@ -24,7 +24,9 @@ public class BeanLifeCycleTest {
     @Configuration
     static class LifeCycleConfig{
 
-        @Bean
+        @Bean(initMethod = "init", destroyMethod = "close") //빈 등록 방식으로 연결,연결끊을때 지정하기
+        //destroyMethod()에는 디폴트 값이 있다 -> default AbstractBeanDefinition.INFER_METHOD
+        //INFER_METHOD : close , shutdown 라는 이름의 메서드를 자동으로 호출
         public NetworkClient networkClient(){
             NetworkClient networkClient = new NetworkClient();
             networkClient.setUrl("http://hello-spring.dev");
