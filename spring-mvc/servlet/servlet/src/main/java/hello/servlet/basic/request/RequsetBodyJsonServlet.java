@@ -26,7 +26,7 @@ public class RequsetBodyJsonServlet extends HttpServlet {
 
         System.out.println("messageBody = " + messageBody); //posrtman의 messageBody 자체에 보내서 가져오는것
 
-        //객체로 변환한것도 읽어오는것?
+        //객체로 변환한것도 읽어오는것? -> json형태로의 변환
         HelloData helloData = objectMapper.readValue(messageBody, HelloData.class);
 
         System.out.println("helloData.username = " + helloData.getUsername());
