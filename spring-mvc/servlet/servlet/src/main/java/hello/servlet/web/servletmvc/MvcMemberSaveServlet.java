@@ -18,7 +18,7 @@ public class MvcMemberSaveServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        //요청정보
+        //요청정보 파싱
         String username = request.getParameter("username");
         int age = Integer.parseInt(request.getParameter("age"));
         //비즈니스 로직 호출
