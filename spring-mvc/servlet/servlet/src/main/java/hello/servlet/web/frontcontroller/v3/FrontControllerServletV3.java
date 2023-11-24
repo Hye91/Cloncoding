@@ -45,6 +45,7 @@ public class FrontControllerServletV3 extends HttpServlet {
         //메서드 추출 : ctrl + alt + m
 
         ModelView mv = controller.process(paramMap);//url 주소를 잘 호출 했으면 httpservlet호출하게한다.
+        //논리 뷰 이름을 반환한다.
         //ctlr + alt + B : 이 메서드의 구현체로 들어갈수 있다.
 
         //mv(modelView까지 받았으면 이제 model의 논리 이름을 물리적 이름으로 바꿔야한다.)
@@ -59,8 +60,10 @@ public class FrontControllerServletV3 extends HttpServlet {
 
     private static Map<String, String> createParamMap(HttpServletRequest request) {
         Map<String, String> paramMap = new HashMap<>();
-        request.getParameterNames().asIterator()
+        request.getParameterNames().asIterator() /*getParameterNames : 모든 queryNames들 조회*/
                 .forEachRemaining(paramName -> paramMap.put(paramName, request.getParameter(paramName)));
+                //각 파라미터의 이름을 나타내는 paramName을 받아서 paramMap에 해당 파라미터의 이름을 키로하고,
+                // 그에 해당하는 값을 request.getParameter(paramName)으로 가져와서 값으로 설정하는 작업
         return paramMap;
     }
 }
