@@ -26,6 +26,8 @@ public class MyView {
 
     public void render(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         modelToRequestAttribute(model, request);
+        //model의 키와 값을 jsp로 전환하기 위한 방법으로 request.setAttribute에 담아야한다.
+        //그렇게 담은 request를 통해서 rendering하는 방법을 구현한다.
         RequestDispatcher dispatcher = request.getRequestDispatcher(viewPath);
         dispatcher.forward(request,response);
     }
@@ -33,5 +35,7 @@ public class MyView {
     private static void modelToRequestAttribute(Map<String, Object> model, HttpServletRequest request) {
         model.forEach((key, value) -> request.setAttribute(key, value));
         //model의 키와 값을 하나하나 다 request setAttribute로 다 집어넣는다.
+        //JSP는 request.getAttribute() 로 데이터를 조회하기 때문에, 모델의 데이터를 꺼내서
+        //request.setAttribute() 로 담아둔다.
     }
 }
