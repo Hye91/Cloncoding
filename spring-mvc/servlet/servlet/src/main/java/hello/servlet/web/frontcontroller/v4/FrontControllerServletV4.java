@@ -1,6 +1,5 @@
 package hello.servlet.web.frontcontroller.v4;
 
-import hello.servlet.web.frontcontroller.ModelView;
 import hello.servlet.web.frontcontroller.MyView;
 import hello.servlet.web.frontcontroller.v4.controller.MemberFormControllerV4;
 import hello.servlet.web.frontcontroller.v4.controller.MemberListControllerV4;
@@ -20,7 +19,7 @@ import java.util.Map;
 public class FrontControllerServletV4 extends HttpServlet {
 
     //Mapping 정보 저장하기 : key를 url로 잡고, 그 url에 따른 controller 호출
-    Map<String, ControllerV4> controllerMap = new HashMap<>();
+    private Map<String, ControllerV4> controllerMap = new HashMap<>();
 
     public FrontControllerServletV4() { //빈 생성자에 매핑정보 담아서 실행이 되면 담아지도록 함
         controllerMap.put("/front-controller/v4/members/new-form", new MemberFormControllerV4());

@@ -20,7 +20,7 @@ import java.util.Map;
 public class FrontControllerServletV3 extends HttpServlet {
 
     //Mapping 정보 저장하기 : key를 url로 잡고, 그 url에 따른 controller 호출
-    Map<String, ControllerV3> controllerMap = new HashMap<>();
+    private Map<String, ControllerV3> controllerMap = new HashMap<>();
 
     public FrontControllerServletV3() { //빈 생성자에 매핑정보 담아서 실행이 되면 담아지도록 함
         controllerMap.put("/front-controller/v3/members/new-form", new MemberFormControllerV3());
