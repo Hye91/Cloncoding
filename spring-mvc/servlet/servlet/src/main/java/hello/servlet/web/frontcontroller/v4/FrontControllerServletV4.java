@@ -43,7 +43,10 @@ public class FrontControllerServletV4 extends HttpServlet {
         //V4에서는 model도 만들어서 넘겨줘야한다.
         Map<String, Object> model = new HashMap<>();
 
-        String viewName = controller.process(paramMap, model);//url 주소를 잘 호출 했으면 httpservlet호출하게한다.
+        String viewName = controller.process(paramMap, model);
+        //paramMap과 model의 객체를 만들어서 각각 컨트롤러어 전달하면 단순히 put을 이용해 값을 넣어주고
+        //다시 돌려주면 이 값들을 controller에 담아서 viewname을 반환받게 된다.
+        //url 주소를 잘 호출 했으면 httpservlet호출하게한다.
         //논리 뷰 이름을 반환한다.
         //ctlr + alt + B : 이 메서드의 구현체로 들어갈수 있다.
 

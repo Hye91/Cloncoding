@@ -29,6 +29,6 @@ public class MemberSaveControllerV4 implements ControllerV4 {
         memberRepository.save(member);
 
         model.put("member", member);
-        return "save-result";
+        return "save-result"; //modelView가 아닌 view 이름을 그대로 반환한다
     }
 }
