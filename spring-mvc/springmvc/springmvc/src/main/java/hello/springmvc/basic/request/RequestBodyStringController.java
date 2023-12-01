@@ -5,9 +5,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,6 +57,21 @@ public class RequestBodyStringController {
 
         //responseWriter.write("ok");
         return new HttpEntity<>("ok");
+        //void대신 반환 타입 또한 httpEntity의 방식으로 바꿔서 사용가능.
+    }
+
+    //get방식으로 query parameter 하는 방식과 html form방식으로 post하는 방식에서만
+    // @RequestParam, @ModelAttribute 방식을 쓰는거고(요청 파라미터) 그 외의 경우에서는 httpEntity를 사용해서 직접 데이터를 꺼내와야한다
+
+    @ResponseBody
+    @PostMapping("/request-body-string-v4") //@RequestBody를 사용하면 httpbody의 메시지 읽어서 넣어주게된다.
+    public String requestBodyStringV4(@RequestBody String messageBody) throws IOException {
+
+        //String messageBody = httpEntity.getBody();
+        log.info("info messageBody={}",messageBody);
+
+
+        return "ok";
         //void대신 반환 타입 또한 httpEntity의 방식으로 바꿔서 사용가능.
     }
 }
