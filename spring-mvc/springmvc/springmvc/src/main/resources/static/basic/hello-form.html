@@ -1,0 +1,16 @@
+<!--리소스는 /resources/static 아래에 두면 스프링 부트가 자동으로 인식한다.-->
+<!--jar에는 내장톰캣만 쓰는 경우 webapp이 없기때문에 리소스에 basic/hello-form.html로 만들어두면 Spring이 인식한다.-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/request-param-v1" method="post">
+    username: <input type="text" name="username" />
+    age: <input type="text" name="age" />
+    <button type="submit">전송</button>
+</form>
+</body>
+</html>
