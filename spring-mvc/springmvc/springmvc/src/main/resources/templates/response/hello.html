@@ -1,0 +1,12 @@
+<!--Spring boot의 경우에는 이 경로에 있는 html파일을 기본 뷰 템플릿 경로로 이용한다.-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<p th:text="${data}">empty</p>
+<!--th를 사용하면 model에서 data라는 key의 값을 꺼내서 렌더링시 empty값을 치환해서 넣어준다-->
+</body>
+</html>
