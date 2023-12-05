@@ -40,6 +40,16 @@ public class BasicItemController {
         return "basic/item";
     }
 
+    @GetMapping("/add") //상품등록 '폼'을 보여주기라서 post아니고 get을 사용
+    public String addForm(){
+        return "basic/addForm";
+    }
+
+    @PostMapping("/add") //상품등록
+    public String save(){
+        return "basic/addForm";
+    }
+
     /***
      * 테스트용 데이터 추가
      */
