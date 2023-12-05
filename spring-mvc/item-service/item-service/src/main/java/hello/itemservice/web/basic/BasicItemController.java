@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,9 +42,60 @@ public class BasicItemController {
         return "basic/addForm";
     }
 
+    //@PostMapping("/add") //상품등록
+    public String addItemV1(
+            @RequestParam String itemName,
+            @RequestParam int price,
+            @RequestParam Integer quantity,
+            Model model
+    ){
+
+        Item item = new Item();
+        item.setItemName(itemName);
+        item.setPrice(price);
+        item.setQuantity(quantity);
+        itemRepository.save(item);
+
+        model.addAttribute("item", item);
+        //저장하고 나서 제품상세 화면은 바로 보여준다. 그래서 바로 modelAttribute로 넘겨주는것
+        return "basic/item";
+    }
+
+    //@PostMapping("/add") //상품등록
+    public String addItemV2(@ModelAttribute("item") Item item, Model model){
+
+//        Item item = new Item();
+//        item.setItemName(itemName);
+//        item.setPrice(price);
+//        item.setQuantity(quantity);
+        itemRepository.save(item);
+
+        //model.addAttribute("item", item);
+        //@ModelAttribute("item")이걸 사용해서 위 코드를 주석 처리가능하게한다 (name을 지정해준것, view에서 이 name을 활용)
+
+        //modelAttribute는 model객체에 값을 다 넣어주고 view에도 넣어주는 작업을 한다
+        //@RequesetParam으로 하나하나 객체 불러서 값을 담아준 작업도 같이 해주고
+        //model에도 담아주게되는것
+
+        //저장하고 나서 제품상세 화면은 바로 보여준다. 그래서 바로 modelAttribute로 넘겨주는것
+        return "basic/item";
+    }
+
+    //@PostMapping("/add") //상품등록
+    public String addItemV3(@ModelAttribute Item item){
+        //만약 name을 지운 경우
+        //클래스명 Item의 첫글자인 대문자를 Item -> item으로 바꾼것을 modelAttribute에서 name으로 사용한다
+        itemRepository.save(item);
+
+        return "basic/item";
+    }
+
     @PostMapping("/add") //상품등록
-    public String save(){
-        return "basic/addForm";
+    public String addItemV4(Item item){
+        //여기서도 클래스명 Item의 첫글자인 대문자를 Item -> item으로 바꾼것을 modelAttribute에서 name으로 사용한다
+        itemRepository.save(item);
+
+        return "basic/item";
     }
 
     /***
