@@ -90,12 +90,20 @@ public class BasicItemController {
         return "basic/item";
     }
 
-    @PostMapping("/add") //상품등록
+    //@PostMapping("/add") //상품등록
     public String addItemV4(Item item){
         //여기서도 클래스명 Item의 첫글자인 대문자를 Item -> item으로 바꾼것을 modelAttribute에서 name으로 사용한다
         itemRepository.save(item);
 
-        return "basic/item";
+        return "basic/item"; //redirect하지 않고 바로 view보여주는 화면으로 해둠 -> 새로고침하면 계속 등록된다!
+    }
+
+    @PostMapping("/add") //상품등록
+    public String addItemV5(Item item){
+
+        itemRepository.save(item);
+
+        return "redirect:/basic/items/" + item.getId();
     }
 
     @GetMapping("/{itemId}/edit") //수정하는 폼 보여주기
