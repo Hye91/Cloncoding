@@ -17,6 +17,7 @@
     </div>
 
     <!--상품이 저장되었습니다라는 상세페이지가 보이는 곳 조건이 true면 렌더링하게된다.-->
+    <!--param부분을 쓰면 요청 파라미터 부분에 true또는false를 저장해서 넘길수 있다-->
     <h2 th:if="${param.status}" th:text="'저장 완료'"></h2>
     <div>
         <label for="itemId">상품 ID</label>
