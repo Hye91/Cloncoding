@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -98,12 +99,24 @@ public class BasicItemController {
         return "basic/item"; //redirect하지 않고 바로 view보여주는 화면으로 해둠 -> 새로고침하면 계속 등록된다!
     }
 
-    @PostMapping("/add") //상품등록
+    //@PostMapping("/add") //상품등록
     public String addItemV5(Item item){
 
         itemRepository.save(item);
 
         return "redirect:/basic/items/" + item.getId();
+    }
+
+    @PostMapping("/add") //상품등록
+    public String addItemV6(Item item, RedirectAttributes redirectAttributes){
+        //상품이 저장 된 후에 '저장되었습니다'라는 문구가 보이도록 해야 사용자의 입장에서 더 좋다.
+        //RedirectAttribute 파라미터가 있으면 저장되었다는 문구가 보이게 하기.
+
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", item.getId());
+        redirectAttributes.addAttribute("status", true);
+        //status가 true면 저장되고 넘어왔다고 생각함
+        return "redirect:/basic/items/{itemId}"; //redirectAttribute로 넣은 itemId값이 치환이 된다
     }
 
     @GetMapping("/{itemId}/edit") //수정하는 폼 보여주기
