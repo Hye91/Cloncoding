@@ -1,5 +1,7 @@
 package hello.thymeleaf.basic;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.Data;
 import org.springframework.stereotype.Component;
@@ -51,12 +53,17 @@ public class BasicController {
     }
 
     @GetMapping("/basic-objects")
-    public String basicObjects(HttpSession session){
+    public String basicObjects(Model model, HttpServletRequest request,
+                               HttpServletResponse response, HttpSession session){
+        model.addAttribute("request", request);
+        model.addAttribute("response", response);
+        model.addAttribute("servletContext", request.getServletContext());
         session.setAttribute("sessionData","Hello Session");
+        //타임리프에서 session에 데이터를 담아서 타임리프로 꺼낼수있다.
         return "basic/basic-objects";
     }
 
-    @Component("helloBean")
+    @Component("helloBean") //빈의 이름을 helloBean이라고 지정
     static class HelloBean{
         public String hello(String data){
             return "Hello" + data;
