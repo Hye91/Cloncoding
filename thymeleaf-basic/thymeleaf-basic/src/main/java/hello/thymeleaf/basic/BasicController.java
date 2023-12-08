@@ -102,6 +102,11 @@ public class BasicController {
         return "basic/attribute";
     }
 
+    @GetMapping("/each")
+    public String each(Model model){
+        return "basic/each";
+    }
+
     @Data //내부에서 쓰는 클래스 만들어주기
     static class User{
         private String username;
