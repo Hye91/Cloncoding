@@ -92,9 +92,14 @@ public class BasicController {
 
     @GetMapping("/operation")
     public String operation(Model model){
-        model.addAttribute("nullData",null);
+        model.addAttribute("nullData",null); //null값이 들어가면 연산 어떻게 되는지를 본다.
         model.addAttribute("data","Spring");
         return "basic/operation";
+    }
+
+    @GetMapping("/attribute")
+    public String attribute(Model model){
+        return "basic/attribute";
     }
 
     @Data //내부에서 쓰는 클래스 만들어주기
