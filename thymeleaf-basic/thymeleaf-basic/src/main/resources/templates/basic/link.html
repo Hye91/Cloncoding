@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>URL 링크</h1>
+<ul>
+    <li><a th:href="@{/hello}">basic url</a></li>
+    <li><a th:href="@{/hello(param1=${param1}, param2=${param2})}">hello query param</a><!--hello?param1=data1&param2=data2--></li>
+    <li><a th:href="@{/hello/{param1}/{param2}(param1=${param1}, param2=${param2})}">path variable</a><!--/hello/data1/data2--></li>
+    <!--경로를 만드는 부분과 데이터를 만드는 부분이 구분이 되어있어서 유지보수하기가 쉽다-->
+    <li><a th:href="@{/hello/{param1}(param1=${param1}, param2=${param2})}">path variable + query parameter</a><!--hello/data1?param2=data2--></li>
+</ul>
+</body>
+</html>
