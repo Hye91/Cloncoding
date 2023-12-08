@@ -84,6 +84,12 @@ public class BasicController {
         return "basic/link";
     }
 
+    @GetMapping("/literal")
+    public String literal(Model model){
+        model.addAttribute("data","Spring!");
+        return "basic/literal";
+    }
+
     @Data //내부에서 쓰는 클래스 만들어주기
     static class User{
         private String username;
