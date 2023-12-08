@@ -90,6 +90,13 @@ public class BasicController {
         return "basic/literal";
     }
 
+    @GetMapping("/operation")
+    public String operation(Model model){
+        model.addAttribute("nullData",null);
+        model.addAttribute("data","Spring");
+        return "basic/operation";
+    }
+
     @Data //내부에서 쓰는 클래스 만들어주기
     static class User{
         private String username;
