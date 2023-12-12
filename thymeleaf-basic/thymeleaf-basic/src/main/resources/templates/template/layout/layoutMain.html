@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="template/layout/base :: common_header(~{::title},~{::link})">
+    <!--layout base의 파일로 바꿔치기 하는것-->
+    <!--common_header이라는 메서드에 parameter을 넘겨주는 식으로 값들이 base로 넘어가게된다.-->
+    <title>메인 타이틀</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/themes/smoothness/jquery-ui.css}">
+</head>
+<body>
+메인 컨텐츠
+</body>
+</html>
