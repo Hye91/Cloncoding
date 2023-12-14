@@ -32,12 +32,15 @@ public class FormItemController {
     }
 
     @GetMapping("/add")
-    public String addForm() {
+    public String addForm(Model model) {
+        model.addAttribute("item", new Item());
+        //타임리프가 지원하는 폼 기능을 쓰려면 일단 모델에서 객체를 넘겨줘야한다.(빈 객체라도 넘겨야함)
         return "form/addForm";
     }
 
     @PostMapping("/add")
-    public String addItem(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
+    public String addItem(@ModelAttribute Item item/*타임리프로 폼에 등록을 item을 해두면 이렇게 등록시 사용과 맞춰줄수있다*/,
+                          RedirectAttributes redirectAttributes) {
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
