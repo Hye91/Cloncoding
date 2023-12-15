@@ -9,4 +9,8 @@ public enum ItemType {
     ItemType(String description) { //설명을 위한 description 필드 추가
         this.description = description;
     }
+
+    public String getDescription() {
+        return description;
+    }
 }

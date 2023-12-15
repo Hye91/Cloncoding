@@ -59,6 +59,18 @@
             </div>
         </div>
 
+        <!-- radio button -->
+        <!--라디오 버튼은 한번 선택하고 나면 더이상 null을 유지할수 없게된다. 그래서 hidden 필드가 필요없다 단 선택하지 않으면 null 유지-->
+        <div>
+            <div>상품 종류</div>
+            <div th:each="type : ${itemTypes}" class="form-check form-check-inline">
+                <input type="radio" th:field="*{itemType}" th:value="${type.name()}" class="form-check-input">
+                <label th:for="${#ids.prev('itemType')}" th:text="${type.description}" class="form-check-label">
+                    BOOK
+                </label>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col">
                 <button class="w-100 btn btn-primary btn-lg" type="submit">저장</button>

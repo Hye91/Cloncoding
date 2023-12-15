@@ -14,7 +14,7 @@ public class Item {
 
     private Boolean open; //판매여부
     private List<String> regions; //등록지역
-    private ItemType itemType; //상품 종류
+    private ItemType itemType; //상품 종류, 배열로 들어가는게 아니기때문에 ItemType 하나만 들어가게된다.
     private String deliveryCode; //배송방식
 
     public Item() {
