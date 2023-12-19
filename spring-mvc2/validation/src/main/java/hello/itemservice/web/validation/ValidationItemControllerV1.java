@@ -45,6 +45,8 @@ public class ValidationItemControllerV1 {
     @PostMapping("/add")
     public String addItem(@ModelAttribute Item item, RedirectAttributes redirectAttributes, Model model) {
         //검증 오류가 발생시 오류값을 모델에 다시 담아서 입력폼으로 보내줘야한다. 그래서 Model을 추가함.
+        //ModelAttribute를 통해서 오류가 생기는 값일지라도 item에 담기게 된다. 그 상태 그대로
+        //addForm 으로 진행되기때문에 오류가 생기는 값이 그대로 화면에 남게되는것이다.(재사용가능)
 
         //검증 시에 무슨 오류가 있는지 담아주는 객체가 필요하다.
         Map<String, String> errors = new HashMap<>();
