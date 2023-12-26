@@ -143,9 +143,12 @@ public class ValidationItemControllerV2 {
         return "redirect:/validation/v2/items/{itemId}";
     }
 
-    @PostMapping("/add")
+    //@PostMapping("/add")
     public String addItemV3(@ModelAttribute Item item, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes, Model model) {
+
+        log.info("objectName={} ", bindingResult.getObjectName());
+        log.info("target={}", bindingResult.getTarget());
 
         //검증 로직
         if(!StringUtils.hasText(item.getItemName())){
@@ -171,6 +174,54 @@ public class ValidationItemControllerV2 {
             int resultPrice = item.getPrice() * item.getQuantity();
             if(resultPrice < 10000){
                 
+                bindingResult.addError(new ObjectError("item",new String[]{"totalPriceMin"},new Object[]{10000,resultPrice},null));
+            }
+        }
+
+        //검증에 실패하면 다시 입력 폼으로! 오류값또한 같이 입력폼에 보이도록 보내줘야한다.
+        if(bindingResult.hasErrors()/*!errors.isEmpty()*/){
+            log.info("errors ={} " , bindingResult);
+            return "validation/v2/addForm"; //검증 실패시 그냥 입력뷰로 보내버리는것
+        }
+
+        //성공 로직
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v2/items/{itemId}";
+    }
+
+    @PostMapping("/add")
+    public String addItemV4(@ModelAttribute Item item, BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes, Model model) {
+
+        log.info("objectName={} ", bindingResult.getObjectName());
+        log.info("target={}", bindingResult.getTarget());
+
+        //검증 로직
+        if(!StringUtils.hasText(item.getItemName())){
+            //errors.put("itemName", "상품 이름은 필수입니다.");
+
+            //입력값 오류 이후에도 그 값 남겨놓는 방법
+            //code에 각각의 defaultMessage를 저장해둔것을 가져와서 사용하게 한다.(argument는 배열의 범위를 표현하는건가)
+            //message의 값을 한데 모아서 사용한것과 같은 방식
+            bindingResult.addError(new FieldError("item","itemName",item.getItemName(),false, new String[]{"required.item.itemName"},null, null));
+        }
+        if(item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000000){
+
+            bindingResult.addError(new FieldError("item","price", item.getPrice(), false, new String[]{"range.item.price"},new Object[]{1000,1000000}, null));
+        }
+        if(item.getQuantity() == null || item.getQuantity() >= 9999){
+
+            bindingResult.addError(new FieldError("item","quantity",item.getQuantity(),false,new String[]{"max.item.quantity"},new Object[]{9999}, null));
+        }
+
+        //특정 필드가 아닌 복합 룰 검증 (globalError)
+        //objectError은 값이 남아있는게 없기때문에 rejectedValue나 bindingFailure 추가하지않는다
+        if(item.getQuantity() != null && item.getPrice() != null){
+            int resultPrice = item.getPrice() * item.getQuantity();
+            if(resultPrice < 10000){
+
                 bindingResult.addError(new ObjectError("item",new String[]{"totalPriceMin"},new Object[]{10000,resultPrice},null));
             }
         }
