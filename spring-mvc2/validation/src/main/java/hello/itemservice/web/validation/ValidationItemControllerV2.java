@@ -52,8 +52,8 @@ public class ValidationItemControllerV2 {
         //ModelAttribute를 통해서 오류가 생기는 값일지라도 item에 담기게 된다. 그 상태 그대로
         //addForm 으로 진행되기때문에 오류가 생기는 값이 그대로 화면에 남게되는것이다.(재사용가능)
 
-        //bindingResult : item에 binding된 결과가 담기게 된다
-        //검증 시에 무슨 오류가 있는지 담아주는 객체가 필요하다.
+        //bindingResult : item에 binding된 결과가 담기게 된다(오류가 생성되도 컨트롤러 호출이 되게한다)
+        //검증 시에 무슨 오류가 있는지 담아주는 객체가 필요하다. 문제에 대한 결과를 담아준다
 //        Map<String, String> errors = new HashMap<>();
         //bindingResult가 errors의 역할을 해주게 된다.
         //웹 애플리케이션의 폼에서 사용자가 입력한 데이터를 처리할 때, 특정 입력 필드에 부적절한 값이 들어갈 경우 필드 단위 에러가 발생할 수 있다.
