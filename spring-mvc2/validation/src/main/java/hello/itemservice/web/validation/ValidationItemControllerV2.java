@@ -195,25 +195,27 @@ public class ValidationItemControllerV2 {
     public String addItemV4(@ModelAttribute Item item, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes, Model model) {
 
+        //BindingResult 가 제공하는 rejectValue() , reject() 를 사용하면 FieldError , ObjectError 를
+        // 직접 생성하지 않고, 깔끔하게 검증 오류를 다룰 수 있다
+
         log.info("objectName={} ", bindingResult.getObjectName());
         log.info("target={}", bindingResult.getTarget());
 
         //검증 로직
         if(!StringUtils.hasText(item.getItemName())){
-            //errors.put("itemName", "상품 이름은 필수입니다.");
-
-            //입력값 오류 이후에도 그 값 남겨놓는 방법
-            //code에 각각의 defaultMessage를 저장해둔것을 가져와서 사용하게 한다.(argument는 배열의 범위를 표현하는건가)
-            //message의 값을 한데 모아서 사용한것과 같은 방식
-            bindingResult.addError(new FieldError("item","itemName",item.getItemName(),false, new String[]{"required.item.itemName"},null, null));
+            //bindingResult.addError(new FieldError("item","itemName",item.getItemName(),false, new String[]{"required.item.itemName"},null, null));
+            bindingResult.rejectValue("itemName","required");
+            //rejectValue가 fieldError을 대신 생성해주게 된다.
         }
         if(item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000000){
 
-            bindingResult.addError(new FieldError("item","price", item.getPrice(), false, new String[]{"range.item.price"},new Object[]{1000,1000000}, null));
+            //bindingResult.addError(new FieldError("item","price", item.getPrice(), false, new String[]{"range.item.price"},new Object[]{1000,1000000}, null));
+            bindingResult.rejectValue("price","range",new Object[]{1000,1000000}, null);
         }
         if(item.getQuantity() == null || item.getQuantity() >= 9999){
 
-            bindingResult.addError(new FieldError("item","quantity",item.getQuantity(),false,new String[]{"max.item.quantity"},new Object[]{9999}, null));
+            //bindingResult.addError(new FieldError("item","quantity",item.getQuantity(),false,new String[]{"max.item.quantity"},new Object[]{9999}, null));
+            bindingResult.rejectValue("quantity","max", new Object[]{9999}, null); //rejectValue는 fieldError
         }
 
         //특정 필드가 아닌 복합 룰 검증 (globalError)
@@ -222,7 +224,8 @@ public class ValidationItemControllerV2 {
             int resultPrice = item.getPrice() * item.getQuantity();
             if(resultPrice < 10000){
 
-                bindingResult.addError(new ObjectError("item",new String[]{"totalPriceMin"},new Object[]{10000,resultPrice},null));
+                //bindingResult.addError(new ObjectError("item",new String[]{"totalPriceMin"},new Object[]{10000,resultPrice},null));
+                bindingResult.reject("totalPriceMin",new Object[]{10000,resultPrice},null); //reject는 Object , Object 이름은 bindingResult가 이미 알고 있기때문에 여기서 끝
             }
         }
 
