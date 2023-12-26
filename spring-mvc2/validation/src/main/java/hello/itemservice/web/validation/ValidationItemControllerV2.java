@@ -45,7 +45,7 @@ public class ValidationItemControllerV2 {
         return "validation/v2/addForm";
     }
 
-    @PostMapping("/add")
+    //@PostMapping("/add")
     public String addItemV1(@ModelAttribute Item item, BindingResult bindingResult,
                           RedirectAttributes redirectAttributes, Model model) {
         //검증 오류가 발생시 오류값을 모델에 다시 담아서 입력폼으로 보내줘야한다. 그래서 Model을 추가함.
@@ -85,6 +85,54 @@ public class ValidationItemControllerV2 {
         if(bindingResult.hasErrors()/*!errors.isEmpty()*/){
             log.info("errors ={} " , bindingResult);
             //model.addAttribute("errors", errors); bindingResult(자동으로 view에 넘김)에 담아내기때문에 여기 담지 않아도 된다.
+            return "validation/v2/addForm"; //검증 실패시 그냥 입력뷰로 보내버리는것
+        }
+
+        //성공 로직
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v2/items/{itemId}";
+    }
+
+    @PostMapping("/add")
+    public String addItemV2(@ModelAttribute Item item, BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes, Model model) {
+
+        //검증 로직
+        if(!StringUtils.hasText(item.getItemName())){
+            //errors.put("itemName", "상품 이름은 필수입니다.");
+
+            //입력값 오류 이후에도 그 값 남겨놓는 방법
+            bindingResult.addError(new FieldError("item","itemName",item.getItemName(),false,null,null, "상품 이름은 필수입니다."));
+            //bindingFailure : 바인딩 연결 자체에 실패를 했는지에 대한 걸 물어보는거라서 이건 연결 실패의 경우가 아니므로 false로
+            //rejectedValue : 사용자가 입력한 타입이 맞지 않는 값 -> 오류가 생성되면 이게 bingingResult에 담겨서
+            // (field Error을 만듬)컨트롤러 호출전에 스프링에 저장되어서 남게된다
+        }
+        if(item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000000){
+            //errors.put("price", "가격은 1,000 ~ 1,000,000 까지 허용합니다");
+            //bindingResult.addError(new FieldError("item","price", "가격은 1,000 ~ 1,000,000 까지 허용합니다"));
+            bindingResult.addError(new FieldError("item","price", item.getPrice(), false, null, null, "가격은 1,000 ~ 1,000,000 까지 허용합니다"));
+        }
+        if(item.getQuantity() == null || item.getQuantity() >= 9999){
+            //errors.put("quantity"," 수량은 최대 9,999까지 허용합니다");
+            //bindingResult.addError(new FieldError("item","quantity", "수량은 최대 9,999까지 허용합니다"));
+            bindingResult.addError(new FieldError("item","quantity",item.getQuantity(),false,null,null, "수량은 최대 9,999까지 허용합니다"));
+        }
+
+        //특정 필드가 아닌 복합 룰 검증 (globalError)
+        //objectError은 값이 남아있는게 없기때문에 rejectedValue나 bindingFailure 추가하지않는다
+        if(item.getQuantity() != null && item.getPrice() != null){
+            int resultPrice = item.getPrice() * item.getQuantity();
+            if(resultPrice < 10000){
+                //errors.put("globalError", "가격 * 수량의 합은 10,000원 이상이어야 합니다. 현재 값 = " + resultPrice);
+                bindingResult.addError(new ObjectError("item",null,null,"가격 * 수량의 합은 10,000원 이상이어야 합니다. 현재 값 = " + resultPrice));
+            }
+        }
+
+        //검증에 실패하면 다시 입력 폼으로! 오류값또한 같이 입력폼에 보이도록 보내줘야한다.
+        if(bindingResult.hasErrors()/*!errors.isEmpty()*/){
+            log.info("errors ={} " , bindingResult);
             return "validation/v2/addForm"; //검증 실패시 그냥 입력뷰로 보내버리는것
         }
 
