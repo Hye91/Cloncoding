@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.validation.DefaultMessageCodesResolver;
 import org.springframework.validation.MessageCodesResolver;
 
+import static org.assertj.core.api.Assertions.*;
+
 public class MessageCodesResolverTest {
 
     MessageCodesResolver codesResolver = new DefaultMessageCodesResolver()/*구현체*/;
@@ -17,7 +19,7 @@ public class MessageCodesResolverTest {
 //            System.out.println("messageCode = " + messageCode);
 //        }
 
-        Assertions.assertThat(messageCodes).containsExactly("required.item","required");
+        assertThat(messageCodes).containsExactly("required.item","required");
     }
 
     @Test
@@ -26,5 +28,9 @@ public class MessageCodesResolverTest {
         for (String messageCode : messageCodes) {
             System.out.println("messageCode = " + messageCode);
         }
+        //bindingResult.rejectValue("itemName","required");
+        assertThat(messageCodes).containsExactly(
+                "required.item.itemName","required.itemName","required.java.lang.String","required"
+        );
     }
 }
