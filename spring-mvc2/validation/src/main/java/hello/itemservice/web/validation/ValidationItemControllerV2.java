@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -201,12 +202,17 @@ public class ValidationItemControllerV2 {
         log.info("objectName={} ", bindingResult.getObjectName());
         log.info("target={}", bindingResult.getTarget());
 
+        //간단한 공백이나 값이 안들어왔을때 오류코드를 생성하는 코드 밑의 !hasText와 동일
+        ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult,"itemName","required");
+
         //검증 로직
         if(!StringUtils.hasText(item.getItemName())){
             //bindingResult.addError(new FieldError("item","itemName",item.getItemName(),false, new String[]{"required.item.itemName"},null, null));
             bindingResult.rejectValue("itemName","required");
             //rejectValue가 fieldError을 대신 생성해주게 된다.
         }
+
+
         if(item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000000){
 
             //bindingResult.addError(new FieldError("item","price", item.getPrice(), false, new String[]{"range.item.price"},new Object[]{1000,1000000}, null));
