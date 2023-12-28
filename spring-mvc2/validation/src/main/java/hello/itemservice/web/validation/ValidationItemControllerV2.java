@@ -196,6 +196,11 @@ public class ValidationItemControllerV2 {
     public String addItemV4(@ModelAttribute Item item, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes, Model model) {
 
+//        if(bindingResult.hasErrors()){
+//            log.info("errors ={} " , bindingResult);
+//            return "validation/v2/addForm";
+//        } 스프링이 제공하는 typeMismatch의 오류문구만을 보여주기위해서 binding에 실패하면 바로 form화면으로 돌아가게 하는것
+
         //BindingResult 가 제공하는 rejectValue() , reject() 를 사용하면 FieldError , ObjectError 를
         // 직접 생성하지 않고, 깔끔하게 검증 오류를 다룰 수 있다
 
