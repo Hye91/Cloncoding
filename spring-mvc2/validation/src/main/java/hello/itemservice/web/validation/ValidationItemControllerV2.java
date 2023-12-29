@@ -11,6 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.ValidationUtils;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -26,6 +28,15 @@ public class ValidationItemControllerV2 {
 
     private final ItemRepository itemRepository;
     private final ItemValidator itemValidator; //Validation분리를 한 클래스 가져와서 쓰기
+
+    @InitBinder //컨트롤러가 호출이 될때마다 dataBinder이 내부적으로 만들어지게 된다
+    public void init(WebDataBinder dataBinder){
+        dataBinder.addValidators(itemValidator);
+        //그래서 validator이 호출될때 사용할수 있게 된다.
+
+        //item에 해당하는 검증기뿐만아니라 여러가지 사용자, 물품등등에 의한 검증기까지 포함되는경우
+        // support메서드를 통해서 이 검증기가 이 클래스를 지원하는건지 boolean으로 판단하고 실행되게 된다.
+    }
 
     @GetMapping
     public String items(Model model) {
@@ -254,12 +265,30 @@ public class ValidationItemControllerV2 {
         return "redirect:/validation/v2/items/{itemId}";
     }
 
-    @PostMapping("/add")
+    //@PostMapping("/add")
     public String addItemV5(@ModelAttribute Item item, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes, Model model) {
 
         //따로 분리해낸 validation 클래스를 가져온다
         itemValidator.validate(item,bindingResult);
+
+        //검증에 실패하면 다시 입력 폼으로! 오류값또한 같이 입력폼에 보이도록 보내줘야한다.
+        if(bindingResult.hasErrors()/*!errors.isEmpty()*/){
+            log.info("errors ={} " , bindingResult);
+            return "validation/v2/addForm"; //검증 실패시 그냥 입력뷰로 보내버리는것
+        }
+
+        //성공 로직
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v2/items/{itemId}";
+    }
+
+    @PostMapping("/add")
+    public String addItemV6(@Validated/*Item에 대해서 검증기가 적용된다*/ @ModelAttribute Item item, BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes, Model model) {
+
 
         //검증에 실패하면 다시 입력 폼으로! 오류값또한 같이 입력폼에 보이도록 보내줘야한다.
         if(bindingResult.hasErrors()/*!errors.isEmpty()*/){
