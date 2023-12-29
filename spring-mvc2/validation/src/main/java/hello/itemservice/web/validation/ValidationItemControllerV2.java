@@ -25,6 +25,7 @@ import java.util.Map;
 public class ValidationItemControllerV2 {
 
     private final ItemRepository itemRepository;
+    private final ItemValidator itemValidator; //Validation분리를 한 클래스 가져와서 쓰기
 
     @GetMapping
     public String items(Model model) {
@@ -192,7 +193,7 @@ public class ValidationItemControllerV2 {
         return "redirect:/validation/v2/items/{itemId}";
     }
 
-    @PostMapping("/add")
+    //@PostMapping("/add")
     public String addItemV4(@ModelAttribute Item item, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes, Model model) {
 
@@ -239,6 +240,26 @@ public class ValidationItemControllerV2 {
                 bindingResult.reject("totalPriceMin",new Object[]{10000,resultPrice},null); //reject는 Object , Object 이름은 bindingResult가 이미 알고 있기때문에 여기서 끝
             }
         }
+
+        //검증에 실패하면 다시 입력 폼으로! 오류값또한 같이 입력폼에 보이도록 보내줘야한다.
+        if(bindingResult.hasErrors()/*!errors.isEmpty()*/){
+            log.info("errors ={} " , bindingResult);
+            return "validation/v2/addForm"; //검증 실패시 그냥 입력뷰로 보내버리는것
+        }
+
+        //성공 로직
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v2/items/{itemId}";
+    }
+
+    @PostMapping("/add")
+    public String addItemV5(@ModelAttribute Item item, BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes, Model model) {
+
+        //따로 분리해낸 validation 클래스를 가져온다
+        itemValidator.validate(item,bindingResult);
 
         //검증에 실패하면 다시 입력 폼으로! 오류값또한 같이 입력폼에 보이도록 보내줘야한다.
         if(bindingResult.hasErrors()/*!errors.isEmpty()*/){
