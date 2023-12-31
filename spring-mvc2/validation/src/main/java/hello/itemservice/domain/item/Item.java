@@ -12,7 +12,7 @@ public class Item {
 
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "공백X")
     // 문자열 값이 null이 아니며, 최소한 하나의 공백이 아닌 문자를 포함하고 있는지를 확인합니다.
     private String itemName;
 
