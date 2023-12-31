@@ -16,19 +16,19 @@ public class Item {
 
     //beanValidation의 groups 기능을 사용해서 각 기능별로 그룹을 나누어서 적용시킬수 있다.
 
-    @NotNull(groups = UpdateCheck.class)
+    //@NotNull(groups = UpdateCheck.class)
     private Long id;
 
-    @NotBlank(message = "공백X",groups = {SaveCheck.class, UpdateCheck.class})
+    //@NotBlank(message = "공백X",groups = {SaveCheck.class, UpdateCheck.class})
     // 문자열 값이 null이 아니며, 최소한 하나의 공백이 아닌 문자를 포함하고 있는지를 확인합니다.
     private String itemName;
 
-    @NotNull(groups = {SaveCheck.class, UpdateCheck.class})
-    @Range(min = 1000, max = 1000000,groups = {SaveCheck.class, UpdateCheck.class})
+    //@NotNull(groups = {SaveCheck.class, UpdateCheck.class})
+   //@Range(min = 1000, max = 1000000,groups = {SaveCheck.class, UpdateCheck.class})
     private Integer price;
 
-    @NotNull(groups = {SaveCheck.class, UpdateCheck.class})
-    @Max(value = 9999 , groups = SaveCheck.class)
+    //@NotNull(groups = {SaveCheck.class, UpdateCheck.class})
+    //@Max(value = 9999 , groups = SaveCheck.class)
     private Integer quantity;
 
     public Item() {
