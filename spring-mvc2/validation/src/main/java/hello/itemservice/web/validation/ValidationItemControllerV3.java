@@ -46,6 +46,16 @@ public class ValidationItemControllerV3 {
                             RedirectAttributes redirectAttributes, Model model) {
         //@Validated를 사용하면 beanValidation이 다른 검증기를 추가하지 않아도 바로 적용이 되게 된다.
 
+        //특정 필드가 아닌 복합 룰 검증 (globalError)
+        //objectError은 값이 남아있는게 없기때문에 rejectedValue나 bindingFailure 추가하지않는다
+        if(item.getQuantity() != null && item.getPrice() != null){
+            int resultPrice = item.getPrice() * item.getQuantity();
+            if(resultPrice < 10000){
+                bindingResult.reject("totalPriceMin",new Object[]{10000,resultPrice},null);
+                //reject는 Object , Object 이름은 bindingResult가 이미 알고 있기때문에 여기서 끝
+            }
+        }
+
         //검증에 실패하면 다시 입력 폼으로! 오류값또한 같이 입력폼에 보이도록 보내줘야한다.
         if(bindingResult.hasErrors()/*!errors.isEmpty()*/){
             log.info("errors ={} " , bindingResult);
