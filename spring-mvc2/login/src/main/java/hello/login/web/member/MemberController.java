@@ -17,7 +17,7 @@ import javax.validation.Valid;
 @RequestMapping("/members")
 public class MemberController {
 
-    private static MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     @GetMapping("/add") //회원가입하는 폼 가져오기
     public String addForm(@ModelAttribute("member")Member member){
@@ -26,12 +26,14 @@ public class MemberController {
 
     @PostMapping("/add")
     public String save(@Valid @ModelAttribute Member member, BindingResult bindingResult){
+
         if(bindingResult.hasErrors()){
             return "members/addMemberForm";
         }
 
         memberRepository.save(member);
         return "redirect:/"; //저장을 하고 나서 redirect해줘야 계속 저장이 되지 않는다.. 이게 ...무슨 prc법칙인가 그거였는데
+
 
     }
 }
