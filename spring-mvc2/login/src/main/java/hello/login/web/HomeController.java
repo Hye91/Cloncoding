@@ -2,6 +2,7 @@ package hello.login.web;
 
 import hello.login.domain.member.Member;
 import hello.login.domain.member.MemberRepository;
+import hello.login.web.argumentresolver.Login;
 import hello.login.web.session.SessoinManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -81,7 +82,7 @@ public class HomeController {
         return "loginHome";
     }
 
-    @GetMapping("/") //로그인 처리 후 화면 : 쿠키를 받아와서 로그인 이후 화면을 보여주게된다
+    //@GetMapping("/") //로그인 처리 후 화면 : 쿠키를 받아와서 로그인 이후 화면을 보여주게된다
     public String homeLoginV3Spring(
             @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Model model){
             //스프링에서 @SessionAttribute를 활용해서 request를 사용해서 get하는 방법을 줄일수 있다
@@ -91,6 +92,21 @@ public class HomeController {
 //        }
 //
 //        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        //세션에 회원데이터가 없으면 home
+        if(loginMember == null){
+            return "home";
+        }
+
+        //세션이 유지되면 로그인 후 화면으로 이동
+        model.addAttribute("member",loginMember);
+        return "loginHome";
+    }
+
+    @GetMapping("/") //로그인 처리 후 화면 : 쿠키를 받아와서 로그인 이후 화면을 보여주게된다
+    public String homeLoginV3ArgumentResolver(@Login/*이 어노테이션이 있으면 자동으로 로그인된 사용자인지 알게하는것 만들기*/Member loginMember
+            , Model model){ //annotation넣을때는 ctrl + space
+        //Login이 제대로 동작하지않으면 modelAttribute처럼 동작을 하게된다.
 
         //세션에 회원데이터가 없으면 home
         if(loginMember == null){
