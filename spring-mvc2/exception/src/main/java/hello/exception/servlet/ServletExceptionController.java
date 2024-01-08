@@ -27,6 +27,12 @@ public class ServletExceptionController {
         //sendError을 통해서 내가 원하는 오류 상태코드를 직접 던져주는것 가능
     }
 
+    @GetMapping("/error-400") //HttpServletResponse 가 제공하는 sendError 라는 메서드를 사용
+    public void error400(HttpServletResponse response) throws IOException {
+        response.sendError(400,"400 오류!");
+        //sendError을 통해서 내가 원하는 오류 상태코드를 직접 던져주는것 가능
+    }
+
     @GetMapping("/error-500") //HttpServletResponse 가 제공하는 sendError 라는 메서드를 사용
     public void error500(HttpServletResponse response) throws IOException {
         response.sendError(500,"500 오류!");
