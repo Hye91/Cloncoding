@@ -11,6 +11,10 @@ import java.io.IOException;
 @Controller
 public class ServletExceptionController {
 
+    //Servlet exception 전체 흐름.
+    // WAS <- 필터 <- 서블릿 <- 인터셉터 <- ServletExceptionController(예외발생)
+    // WAS(WebServerCustomizer에서 오류페이지 생성) -> 필터 -> 서블릿 -> 인터셉터 -> ErrorPageController 호출
+
     @GetMapping("/error-ex")
     public void errorEx(){
         throw new RuntimeException("예외 발생!"); //예외를 그냥 던져주는것 이때는 500상태의 에러가 뜬다
