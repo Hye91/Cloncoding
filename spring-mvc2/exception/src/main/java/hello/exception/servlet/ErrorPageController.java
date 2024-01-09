@@ -4,6 +4,7 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -60,9 +61,9 @@ public class ErrorPageController { //오류는 발생시키는 것이 아닌 '�
         Exception ex = (Exception) request.getAttribute(ERROR_EXCEPTION); //Exception으로 캐스팅
         result.put("status", request.getAttribute(ERROR_STATUS_CODE));
         result.put("message", ex.getMessage());
-        Integer statusCode = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+        Integer statusCode = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE/*String 타입*/);
 
-        return new ResponseEntity<>()
+        return new ResponseEntity<>(result, HttpStatusCode.valueOf(statusCode));
     }
 
     //에러정보 출력
