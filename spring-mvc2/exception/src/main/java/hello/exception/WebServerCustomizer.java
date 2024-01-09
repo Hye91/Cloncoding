@@ -6,7 +6,7 @@ import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-@Component //API 예외 처리를 하기위해서 다시 살려둠
+//@Component //API 예외 처리를 하기위해서 다시 살려둠, Servlet이 제공하는 오류 메커니즘에 사용
 public class WebServerCustomizer implements WebServerFactoryCustomizer<ConfigurableWebServerFactory> {
     //오류가 발생할때 웹서버(톰캣)화면은 우리가 원하는 형태로 커스텀하기 위해서 생성하는 클래스
     //지정한 implements를 사용해야한다.
