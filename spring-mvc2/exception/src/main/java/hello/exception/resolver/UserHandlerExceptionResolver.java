@@ -29,12 +29,13 @@ public class UserHandlerExceptionResolver implements HandlerExceptionResolver {
                     Map<String,Object> errorResult = new HashMap<>();
                     errorResult.put("ex",ex.getClass());
                     errorResult.put("message", ex.getMessage());
-                    String result = objectMapper.writeValueAsString(errorResult);
+                    String result = objectMapper.writeValueAsString(errorResult); //errorResult를 문자열타입으로 변환
 
-                    response.setContentType("application/json");
-                    response.setCharacterEncoding("utf-8");
-                    response.getWriter().write(result);
+                    response.setContentType("application/json"); //응답을 application/json타입으로 받는다
+                    response.setCharacterEncoding("utf-8"); //인코딩 정보 받기
+                    response.getWriter().write(result); //http message Body에 result정보 받게 된다.
                     return new ModelAndView(); //여기서는 아무것도 넘기지 않는다
+
                     //예외는 먹어버리고 정상적으로 return이 진행된다.
                     //이렇게 진행하면 다시 servlet에 가서 오류를 확인하고 컨트롤러를 호출하는 과정은 일어나지않고 끝나게 된다.
                 } else {
