@@ -12,6 +12,7 @@ public class StringToIpPortConverter implements Converter<String, IpPort> {
         log.info("convert source={}", source);
         //"127.0.0.1:8080"을 parcing해야하므로 :을 기준으로 잘라준다
         String[] split = source.split(":");
+
         String ip = split[0];
         int port = Integer.parseInt(split[1]); //port는 Int형태로 받는다
         return new IpPort(ip,port);
