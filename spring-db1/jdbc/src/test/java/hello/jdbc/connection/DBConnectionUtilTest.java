@@ -14,6 +14,8 @@ class DBConnectionUtilTest {
 
     @Test
     void connection(){
+        //h2 Driver는 JdbcConnection을 제공한다.
+        //DB가 바뀌어도 connection을 통해서 가져오므로 어떤 connection을 사용하는지에 대해서는 신경쓸 필요X
         Connection connection = DBConnectionUtil.getConnection();
         assertThat(connection).isNotNull();
     }
