@@ -25,7 +25,7 @@ public class MemberRepositoryV0 {
             pstmt = con.prepareStatement(sql);
             pstmt.setString(1, member.getMemberId());//sql문 내의 ?에 parameterBinding을 한다
             pstmt.setInt(2,member.getMoney());
-            pstmt.executeUpdate(); //준비된데 DB에 저장되면서 실행되게 한다
+            pstmt.executeUpdate(); //준비된 DB에 저장되면서 실행되게 한다, data 등록, 수정, 삭제는 executeUpdate 조회는 executeQuery
             return member;
         } catch (SQLException e) {
             log.error("db error", e);
@@ -71,6 +71,52 @@ public class MemberRepositoryV0 {
         } finally {
             close(con,pstmt,rs);
         }
+    }
+
+    //수정
+    public void update(String memberId,int money) throws SQLException {
+        String sql = "update member set money=? where member_id=?";
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            con = getConnection();
+            pstmt = con.prepareStatement(sql);
+            /**
+             * sql의 parameter에 따른 순서로 번호줘야한다!
+             */
+            pstmt.setInt(1,money);
+            pstmt.setString(2,memberId);
+            int resultSize = pstmt.executeUpdate();
+            log.info("resultSize={}",resultSize);
+        } catch (SQLException e) {
+            log.error("db error", e);
+            throw e;
+        } finally {
+            close(con,pstmt,null);
+        }
+    }
+
+    //삭제
+    public void delete(String memberId) throws SQLException {
+        String sql = "delete from member where member_id=?";
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            con = getConnection();
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1,memberId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            log.error("db error={}",e);
+            throw e;
+        } finally {
+            close(con,pstmt,null);
+        }
+
     }
 
     private void close(Connection con, Statement stmt/*sql을 그대로 넣는것*/, ResultSet rs){
