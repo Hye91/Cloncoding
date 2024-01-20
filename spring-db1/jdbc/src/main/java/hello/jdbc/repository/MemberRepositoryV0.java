@@ -5,6 +5,7 @@ import hello.jdbc.domain.Member;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.*;
+import java.util.NoSuchElementException;
 
 /**
  * JDBC - DriverManager를 사용해서 저장
@@ -35,6 +36,41 @@ public class MemberRepositoryV0 {
             //그렇기 때문에 항상 close가 되도록 finally에서 close해야한다.
         }
 
+    }
+
+    //조회
+    public Member findById(String memberId) throws SQLException {
+        String sql = "select * from member where member_id = ?";
+
+        //try-catch문의 finally 문에서 선언을 해야하므로 밖에서 초기화를 시켜두는것
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null; //selectQuery의 결과를 담고 있는 통
+
+        try {
+            con = getConnection();
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1,memberId);
+
+            rs = pstmt.executeQuery();//조회시에 사용함, Update를 사용하면 data변경시에 사용함
+
+            //rs에서 값을 꺼내기
+            //rs내부에는 커서라는게 있는데 이걸 지금 데이터가 위치한 지점으로옮겨줘야한다.
+            // -> rs.next()를 하면 실제 데이터가 위치한 곳부터 시작하게 된다
+            if(rs.next()){
+                Member member = new Member();
+                member.setMemberId(rs.getString("member_id"));
+                member.setMoney(rs.getInt("money"));
+                return member;
+            } else { //data가 없는 경우
+                throw new NoSuchElementException("member not found memberId=" + memberId);
+            }
+        } catch (SQLException e) {
+            log.error("db error", e);
+            throw e;
+        } finally {
+            close(con,pstmt,rs);
+        }
     }
 
     private void close(Connection con, Statement stmt/*sql을 그대로 넣는것*/, ResultSet rs){
