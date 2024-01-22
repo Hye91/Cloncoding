@@ -3,15 +3,24 @@ package hello.jdbc.repository;
 import hello.jdbc.connection.DBConnectionUtil;
 import hello.jdbc.domain.Member;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.support.JdbcUtils;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.NoSuchElementException;
 
 /**
- * JDBC - DriverManager를 사용해서 저장
+ * JDBC - DataSource 사용, JdbcUtils 사용
  */
 @Slf4j
-public class MemberRepositoryV0 {
+public class MemberRepositoryV1 {
+
+    //dataSource사용위해서 의존관계 주입
+    private final DataSource dataSource;
+
+    public MemberRepositoryV1(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     public Member save(Member member) throws SQLException {
         String sql = "insert into member(member_id,money) values (?, ?)";
@@ -123,35 +132,42 @@ public class MemberRepositoryV0 {
         //PreparedStatement는 Statement를 상속받은거라서 더 기능이 많다
         //PreparedStatement, Connection을 close 해줘야한다 ! 시작과는 역순 방향으로 close해줘야함
 
-        if(rs != null){
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                log.error("error", e);
-            }
-        }
+        JdbcUtils.closeResultSet(rs);
+        JdbcUtils.closeStatement(stmt);
+        JdbcUtils.closeConnection(con);
 
-        //코드의 안정성을 위해서 ex가 터지는 상황을 고려해야한다.
-        //만약 코드 진행 과정에서 exception이 터진다면 이후 con을 close가 일어나지 않게된다.
-        //그래서 그런 예외들을 처리하는 로직 구현해야한다.
-        if(stmt != null){
-            try {
-                stmt.close();
-            } catch (SQLException e) {
-                log.error("error",e);
-            }
-        }
-        if(con != null){
-            try {
-                con.close();
-            } catch (SQLException e) {
-                log.error("error", e);
-            }
-        }
+//        if(rs != null){
+//            try {
+//                rs.close();
+//            } catch (SQLException e) {
+//                log.error("error", e);
+//            }
+//        }
+//
+//        //코드의 안정성을 위해서 ex가 터지는 상황을 고려해야한다.
+//        //만약 코드 진행 과정에서 exception이 터진다면 이후 con을 close가 일어나지 않게된다.
+//        //그래서 그런 예외들을 처리하는 로직 구현해야한다.
+//        if(stmt != null){
+//            try {
+//                stmt.close();
+//            } catch (SQLException e) {
+//                log.error("error",e);
+//            }
+//        }
+//        if(con != null){
+//            try {
+//                con.close();
+//            } catch (SQLException e) {
+//                log.error("error", e);
+//            }
+//        }
 
     }
 
-    private Connection getConnection() {
-        return DBConnectionUtil.getConnection();
+    private Connection getConnection() throws SQLException {
+        //dataSource를 통해서 getConnection가져오기
+        Connection con = dataSource.getConnection();
+        log.info("get connection={}, class={}",con, con.getClass());
+        return con;
     }
 }
