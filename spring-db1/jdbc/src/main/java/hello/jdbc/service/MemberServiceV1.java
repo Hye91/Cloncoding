@@ -20,6 +20,7 @@ public class MemberServiceV1 {
         repository.update(fromId, fromMember.getMoney() - money);
 
         validation(toMember);
+
         repository.update(toId, toMember.getMoney() + money);
 
 
