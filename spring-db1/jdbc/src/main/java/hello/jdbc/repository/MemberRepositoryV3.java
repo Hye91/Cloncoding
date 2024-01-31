@@ -13,6 +13,7 @@ import java.util.NoSuchElementException;
  *트랜잭션 -트랜잭션 매니저
  * DataSourceUtils.getConnection() : 동기화 매니저가 관리하는 트랜잭션의 경우 매니저가 반환
  * DataSourceUtils.releaseConnection() 사용 : 바로 닫는것이 아닌 동기화로 관리하는 트랜잭션이 있으면 남겨둔다
+ * -> 트랜잭션이 종료되고 commit 또는 Rollback이 되는 상황에서 종료되게 된다
  * 트랜잭션 동기화 매니저 : 같은 트랜잭션을 유지시켜준다
  * 만약, 매니저가 관리하지 않는 트랜잭션의 경우, 종료 또는 새로 생성한다
  */

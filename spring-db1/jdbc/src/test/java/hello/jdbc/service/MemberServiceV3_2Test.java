@@ -1,7 +1,6 @@
 package hello.jdbc.service;
 
 import hello.jdbc.domain.Member;
-import hello.jdbc.repository.MemberRepositoryV2;
 import hello.jdbc.repository.MemberRepositoryV3;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -18,17 +17,17 @@ import java.sql.SQLException;
 import static hello.jdbc.connection.ConnectionConst.*;
 
 /**
- * 트랜잭션 - 트랜잭션 매니저 사용을 통한 동기화
+ * 트랜잭션 - 트랜잭션 탬플릿을 사용
  */
 @Slf4j
-class MemberServiceV3_1Test {
+class MemberServiceV3_2Test {
 
     public static final String MEMBER_A = "memberA";
     public static final String MEMBER_B = "memberB";
     public static final String MEMBER_EX = "ex";
 
     private MemberRepositoryV3 memberRepository;
-    private MemberServiceV3_1 memberService;
+    private MemberServiceV3_2 memberService;
 
     @BeforeEach
     void before(){ //dataSource를 활용한 connection
@@ -40,7 +39,7 @@ class MemberServiceV3_1Test {
         PlatformTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
         //트랜잭션 매니저가 dataSorce를 통해서 conncetion을 만들게된다.
         //jdbc가 아닌 다른 DB를 사용하게 되는경우 의존관계 주입만 변경시키면 된다
-        memberService = new MemberServiceV3_1(transactionManager,memberRepository);
+        memberService = new MemberServiceV3_2(transactionManager,memberRepository);
     }
 
     @AfterEach //테스트가 시행된 이후 DB에 남은 데이터를 한번 삭제시킨다
