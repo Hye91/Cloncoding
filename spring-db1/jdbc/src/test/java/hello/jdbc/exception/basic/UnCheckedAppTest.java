@@ -1,11 +1,12 @@
 package hello.jdbc.exception.basic;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
+@Slf4j
 public class UnCheckedAppTest {
 
     /**
@@ -19,6 +20,18 @@ public class UnCheckedAppTest {
         Controller controller = new Controller();
         assertThatThrownBy(()->controller.request())
                 .isInstanceOf(RuntimeException.class); //예외를 터트리는 자체를 잡는걸로 설정
+    }
+
+    @Test
+    void printEx(){
+        Controller controller = new Controller();
+        try {
+            controller.request();
+        } catch (Exception e){
+//            e.printStackTrace(); 이 방식으로 stackTrace를 호출하는건 좋지 않다 로그로 남기는게 좋다
+            log.info("ex",e);
+
+        }
     }
 
     static class Controller{
@@ -52,13 +65,17 @@ public class UnCheckedAppTest {
             try {
                 runSQL();
             } catch (SQLException e) {
-                //예외를 던질때는 항상 기존의 예외를 넣어줘야한다.
+                /**
+                 * 예외를 던질때는 항상 기존의 예외를 넣어줘야한다.!!
+                 * 기존의 예외를 빼먹으면 무슨 SQL 때문에 RuntimeSQLException이 터진건지 알수 없게된다
+                 * 기존의 e를 통해서 cause by를 통해 root cause를 확인할수 있게된다.
+                 */
                 throw new RuntimeSQLException(e);
             }
         }
         //SQL 예외가 터진다고 가정
         public void runSQL() throws SQLException {
-            throw new SQLException();
+            throw new SQLException("ex");
         }
     }
 
@@ -69,6 +86,10 @@ public class UnCheckedAppTest {
     }
 
     static class RuntimeSQLException extends RuntimeException{
+
+        public RuntimeSQLException() {
+        }
+
         public RuntimeSQLException(Throwable cause) {
             //cause를 사용하면 이전예외를 뭘 던졌는지 알수있다.
             super(cause);
