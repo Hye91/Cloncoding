@@ -18,7 +18,7 @@ import java.util.NoSuchElementException;
  * 만약, 매니저가 관리하지 않는 트랜잭션의 경우, 종료 또는 새로 생성한다
  */
 @Slf4j
-public class MemberRepositoryV3 {
+public class MemberRepositoryV3{
 
     //dataSource 사용 위해서 의존관계 주입
     private final DataSource dataSource;
