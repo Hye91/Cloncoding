@@ -1,7 +1,6 @@
 package hello.jdbc.repository;
 
 import hello.jdbc.domain.Member;
-import hello.jdbc.repository.ex.MyDbException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.support.JdbcUtils;
@@ -29,6 +28,8 @@ public class MemberRepositoryV4_2 implements MemberRepository{
         this.dataSource = dataSource;
         //구현체를 생성자 주입 받는다
         //datasource를 파라미터로 넘기는 이유는 어떤 DB를 쓰는지 정보를 알아서 넘기기때문이다
+        //org.springframework.jdbc.support.SQLExceptionTranslator;
+        //Spring을 통해서 예외를 처리하는 것이므로 각각의 DB에 따른 예외에 의존적이지 않게된다.
         this.exTranslator = new SQLErrorCodeSQLExceptionTranslator(dataSource);
     }
     @Override
