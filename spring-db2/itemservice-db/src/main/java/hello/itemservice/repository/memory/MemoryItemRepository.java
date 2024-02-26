@@ -43,7 +43,7 @@ public class MemoryItemRepository implements ItemRepository {
         return store.values().stream()
                 .filter(item -> {
                     if (ObjectUtils.isEmpty(itemName)) {
-                        return true;
+                        return true; //검색조건을 사용하지 않는 경우이므로 무조건 값을 다 가져온다
                     }
                     return item.getItemName().contains(itemName);
                 }).filter(item -> {
