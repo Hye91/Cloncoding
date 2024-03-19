@@ -81,10 +81,13 @@ public class JdbcTemplateItemRepositoryV1 implements ItemRepository {
 
         String sql = "select id, item_name, price, quantity from item";
         //검색조건에 따른 동적쿼리 작성
+        //동적쿼리 : 검색의 조건에 따른 각각의 where 이후의 조건이 변경되어야한다
+        //이름만 검색하는경우, 가격만 검색하는경우, 이름과 가격모두 검색하는경우 (and조건 추가)
+        //이런 모든 경우의 수를 생각해야하므로 동적으로 적용시키는 동적쿼리가 필요하게 된다
         if (StringUtils.hasText(itemName) || maxPrice != null) {
             sql += " where";
         }
-        boolean andFlag = false;
+        boolean andFlag = false; //하나라도 조건이 더 붙으면 and를 붙이는 것
         List<Object> param = new ArrayList<>();
         if (StringUtils.hasText(itemName)) {
             sql += " item_name like concat('%',?,'%')";
