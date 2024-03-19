@@ -51,7 +51,7 @@ public class JdbcTemplateItemRepositoryV1 implements ItemRepository {
 
     @Override
     public void update(Long itemId, ItemUpdateDto updateParam) {
-        String sql = "update item set item_name=?, price=?, quantity=? where id=?";
+        String sql = "update item set item_name=?, price=?, quantity=? where id = ?";
         template.update(sql,
                 updateParam.getItemName(),
                 updateParam.getPrice(),
@@ -61,7 +61,7 @@ public class JdbcTemplateItemRepositoryV1 implements ItemRepository {
 
     @Override
     public Optional<Item> findById(Long id) {
-        String sql = "select id, item_name, price, quantity from item where = id";
+        String sql = "select id, item_name, price, quantity from item where id = ?";
         //ResultSet은 쿼리의 실행결과값을 담아두는 인터페이스이다
         //그래서 다시 id를 통해서 값을 객체로 가져오기위해서는 rowMapper을 이용해서
         //객체로 변환해서 가져와야한다!
