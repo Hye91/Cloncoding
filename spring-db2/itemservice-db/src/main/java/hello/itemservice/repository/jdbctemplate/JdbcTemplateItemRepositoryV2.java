@@ -81,6 +81,7 @@ public class JdbcTemplateItemRepositoryV2 implements ItemRepository {
                 .addValue("price", updateParam.getPrice())
                 .addValue("quantity", updateParam.getQuantity())
                 .addValue("id",itemId);
+        //.addValue 메서드 체인을 지원해준다
 
         template.update(sql,param);
 
@@ -103,6 +104,7 @@ public class JdbcTemplateItemRepositoryV2 implements ItemRepository {
             //param = Map.of("id", id): 이 부분은 새로운 맵을 생성하여 변수 param에 할당하는 부분입니다.
             // Map.of() 메서드는 Java 9에서 추가된 메서드로, 지정된 키와 값으로 이루어진 불변(immutable) 맵을 생성합니다.
             // 여기서 "id"는 맵의 키이고, id는 해당 키에 대응하는 값입니다.
+            // new Hashmap으로 해도 되는 부분인데 새로운 문법을 사용한 것으로 보면된다
             Item item = template.queryForObject(sql,param, itemRowMapper());
             //queryForObject(결과값 하나만 가져오는 경우)의 경우에는 결과값이 없으면 예외가 터진다
             return Optional.of(item); //옵셔널로 반환되기 때문에 of 조건 걸어서 , 단 of의 경우 null이면 안된다
@@ -156,7 +158,7 @@ public class JdbcTemplateItemRepositoryV2 implements ItemRepository {
 //            item.setQuantity(rs.getInt("quantity"));
 //            return item;
 //        }); 이거의 경우에도 item 클래스와 비슷하기때문에 깔끔하게 정리할수 있다
-        return BeanPropertyRowMapper.newInstance(Item.class);  //camel 변환 지원
+        return BeanPropertyRowMapper.newInstance(Item.class);  //camel 변환 지원(명명규칙)
         //데이터베이스의 특정 행(row)을 Java 객체로 매핑(mapping)
     }
 }
