@@ -5,9 +5,13 @@ import hello.itemservice.repository.ItemSearchCond;
 import hello.itemservice.repository.ItemUpdateDto;
 import hello.itemservice.repository.memory.MemoryItemRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.List;
 
@@ -24,12 +28,27 @@ class ItemRepositoryTest {
     @Autowired
     ItemRepository itemRepository;
 
+    @Autowired
+    PlatformTransactionManager transactionManager;
+    //dataSource랑 transactionManager는 Spring이 자동으로 bean 등록해준다
+
+    TransactionStatus status;
+
+    @BeforeEach
+    void beforeEach(){
+        //트랜잭션 시작
+        status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+        //테스트 시작하기 전에 Transaction을 시작하게 된다. (롤백으로 테스트를 처음의 상태로 돌리기 위함)
+    }
+
     @AfterEach
     void afterEach() {
         //MemoryItemRepository 의 경우 제한적으로 사용
         if (itemRepository instanceof MemoryItemRepository) {
             ((MemoryItemRepository) itemRepository).clearStore();
         }
+        //Transaction RollBack
+        transactionManager.rollback(status);
     }
 
     @Test
