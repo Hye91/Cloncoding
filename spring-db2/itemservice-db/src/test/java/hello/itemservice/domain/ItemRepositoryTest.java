@@ -5,18 +5,17 @@ import hello.itemservice.repository.ItemSearchCond;
 import hello.itemservice.repository.ItemUpdateDto;
 import hello.itemservice.repository.memory.MemoryItemRepository;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.test.annotation.Commit;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Transactional //테스트에서 Transactional Annotation사용사면 트랜잭션 시작과 롤백을 관리할수있다
 @SpringBootTest //이 어노테이션이붙어있으면 @SpringBootApplication 어노테이션을 찾아내서 설정으로 사용하게 된다.
     //그래서 @SpringBootApplication에 설정되어있는 import설정으로 테스트하게된다
 class ItemRepositoryTest {
@@ -28,7 +27,7 @@ class ItemRepositoryTest {
     @Autowired
     ItemRepository itemRepository;
 
-    @Autowired
+    /*@Autowired
     PlatformTransactionManager transactionManager;
     //dataSource랑 transactionManager는 Spring이 자동으로 bean 등록해준다
 
@@ -39,7 +38,7 @@ class ItemRepositoryTest {
         //트랜잭션 시작
         status = transactionManager.getTransaction(new DefaultTransactionDefinition());
         //테스트 시작하기 전에 Transaction을 시작하게 된다. (롤백으로 테스트를 처음의 상태로 돌리기 위함)
-    }
+    }*/
 
     @AfterEach
     void afterEach() {
@@ -48,10 +47,12 @@ class ItemRepositoryTest {
             ((MemoryItemRepository) itemRepository).clearStore();
         }
         //Transaction RollBack
-        transactionManager.rollback(status);
+//        transactionManager.rollback(status);
     }
 
     @Test
+    @Transactional
+    @Commit //테스트의 결과를 저장해서 확인하고 싶을때는 commit을 해줄수 있다. rollbach(false)를 사용할수도있다.
     void save() {
         //given
         Item item = new Item("itemA", 10000, 10);
