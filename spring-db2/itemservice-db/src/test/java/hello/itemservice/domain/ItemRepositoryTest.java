@@ -51,8 +51,8 @@ class ItemRepositoryTest {
     }
 
     @Test
-    @Transactional
-    @Commit //테스트의 결과를 저장해서 확인하고 싶을때는 commit을 해줄수 있다. rollbach(false)를 사용할수도있다.
+//    @Transactional
+//    @Commit //테스트의 결과를 저장해서 확인하고 싶을때는 commit을 해줄수 있다. rollbach(false)를 사용할수도있다.
     void save() {
         //given
         Item item = new Item("itemA", 10000, 10);
