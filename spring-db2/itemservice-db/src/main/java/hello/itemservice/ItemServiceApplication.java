@@ -32,7 +32,7 @@ public class ItemServiceApplication {
 	}
 
 	//Test에서만 사용하는 임베디드모드
-	@Bean
+	/*@Bean
 	@Profile("test")
 	public DataSource dataSource(){
 		//프로필이 test인 경우에만 dataSource를 직접 등록
@@ -43,6 +43,6 @@ public class ItemServiceApplication {
 		dataSource.setUsername("sa");
 		dataSource.setPassword("");
 		return dataSource;
-	}
+	}*/
 
 }
