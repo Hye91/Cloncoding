@@ -39,7 +39,7 @@ public class ItemServiceApplication {
 		log.info("메모리 데이터베이스 초기화");
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("org.h2.Driver"); //h2 데이터베이스 드라이버 지정
-		dataSource.setUrl("jdbc:h2:mem:db;DB_CLOSE_DELAY=-1"); //JVM내부에 DB를 만들고 메모리로 드라이버띄우기
+		dataSource.setUrl("jdbc:h2:mem:db;DB_CLOSE_DELAY=-1"); //JVM내부에 DB를 만들고 메모리(mem)로 드라이버띄우기
 		dataSource.setUsername("sa");
 		dataSource.setPassword("");
 		return dataSource;
