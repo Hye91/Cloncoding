@@ -32,19 +32,10 @@ void main() {
 
 //show code action : ctrl + .
 
-class App extends StatefulWidget {
+class App extends StatelessWidget {
   const App({super.key});
 
-  @override
-  State<App> createState() => _AppState();
-  //단순히 state를 나타내는 것의 코드만 존재한다
-}
-
-class _AppState extends State<App> {
-  //UI를 구축하는 부분
   //Root Widget이 된다.
-  int counter = 0;
-
   @override
   Widget build(BuildContext context) {
     //App의 시작점을 정해주는것
