@@ -16,14 +16,14 @@ class _AppState extends State<App> {
   int counter = 0;
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color(0xFFF4EDDB),
+        backgroundColor: const Color(0xFFF4EDDB),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Clik Count'),
+              const Text('Clik Count'),
               Text('$counter'),
             ],
           ),
