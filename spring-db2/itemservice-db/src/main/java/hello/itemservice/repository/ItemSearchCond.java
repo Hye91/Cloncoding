@@ -14,5 +14,6 @@ public class ItemSearchCond {
     public ItemSearchCond(String itemName, Integer maxPrice) {
         this.itemName = itemName;
         this.maxPrice = maxPrice;
+        //test
     }
 }
